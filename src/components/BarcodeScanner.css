@@ -1,0 +1,212 @@
+.scanner-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--space-md);
+}
+
+.scanner-container {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.scanner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.scanner-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+}
+
+.scanner-close {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: rgba(0, 0, 0, 0.05);
+  font-size: var(--font-size-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.scanner-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.scanner-viewfinder {
+  width: 100%;
+  max-width: 320px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  min-height: 240px;
+}
+
+#barcode-reader {
+  width: 100%;
+}
+#barcode-reader video {
+  border-radius: var(--radius-lg);
+}
+
+.scanner-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.scanner-hint {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.scanner-manual-btn {
+  font-size: var(--font-size-sm);
+}
+
+/* Manual form */
+.manual-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.manual-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-bold);
+}
+
+.manual-input {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: var(--font-size-lg);
+  font-family: var(--font-family);
+  border: 2px solid #e0e0e0;
+  border-radius: var(--radius-md);
+  text-align: center;
+  letter-spacing: 2px;
+  transition: border-color var(--transition-fast);
+}
+.manual-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Book preview */
+.book-preview {
+  display: flex;
+  gap: var(--space-lg);
+  width: 100%;
+  padding: var(--space-md);
+  background: var(--bg-page);
+  border-radius: var(--radius-lg);
+}
+
+.preview-cover {
+  width: 100px;
+  height: 140px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.preview-cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: linear-gradient(135deg, var(--bg-sky), var(--bg-ground));
+}
+
+.preview-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.preview-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.preview-author {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.preview-publisher {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+}
+
+/* Result actions */
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+.result-actions .btn-success {
+  width: 100%;
+}
+
+/* Error */
+.scanner-error {
+  text-align: center;
+  padding: var(--space-md);
+  background: #fff3f3;
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  width: 100%;
+  margin-top: var(--space-md);
+}
+
+.animate-shake {
+  animation: shake 0.4s ease;
+}

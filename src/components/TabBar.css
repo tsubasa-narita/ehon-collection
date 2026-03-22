@@ -1,0 +1,70 @@
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: var(--bg-card);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  z-index: 100;
+  height: calc(var(--touch-min) + var(--space-sm) + env(safe-area-inset-bottom, 0px));
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: var(--space-sm) 0;
+  color: var(--text-light);
+  transition: color var(--transition-fast);
+  min-height: var(--touch-min);
+}
+
+.tab-active {
+  color: var(--color-primary);
+}
+
+.tab-emoji {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.tab-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Center scan button */
+.tab-scan-btn {
+  position: absolute;
+  bottom: calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent), #e55a2b);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  z-index: 101;
+}
+
+.tab-scan-btn:active {
+  transform: translateX(-50%) scale(0.9);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.scan-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}

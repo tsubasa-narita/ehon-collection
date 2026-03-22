@@ -1,0 +1,225 @@
+/* Map page */
+.map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.map-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+}
+
+.map-counter {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  background: var(--bg-card);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+}
+
+.counter-number {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-black);
+  color: var(--color-primary);
+}
+
+.counter-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* Next goal */
+.next-goal {
+  background: linear-gradient(135deg, #fff8e1, #fff3e0);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid #ffe082;
+}
+
+.goal-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.goal-remaining {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.goal-number {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-black);
+  color: var(--color-accent);
+}
+
+.goal-unit {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
+}
+
+.goal-train-name {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-xs);
+}
+
+/* Map container */
+.map-container {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--space-lg);
+  background: var(--bg-card);
+}
+
+.map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Train collection */
+.train-collection {
+  margin-bottom: var(--space-lg);
+}
+
+.collection-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-black);
+  margin-bottom: var(--space-md);
+}
+
+.train-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: var(--space-md);
+}
+
+.train-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+  cursor: pointer;
+}
+.train-item:active {
+  transform: scale(0.95);
+}
+
+.train-unlocked {
+  border: 2px solid transparent;
+}
+.train-unlocked:hover {
+  border-color: var(--color-primary-light);
+}
+
+.train-locked {
+  opacity: 0.5;
+  filter: grayscale(0.5);
+}
+
+.train-image-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.train-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.train-image-locked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  background: #f5f5f5;
+}
+
+.train-name {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.train-stars {
+  font-size: 0.6rem;
+  display: flex;
+  gap: 1px;
+}
+
+/* Train detail modal */
+.train-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+.train-modal {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.train-modal-image {
+  width: 180px;
+  height: 180px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  box-shadow: var(--shadow-lg);
+}
+
+.train-modal-name {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+}
+
+.train-modal-series {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.train-modal-desc {
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.train-modal-rarity {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+}
