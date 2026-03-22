@@ -106,11 +106,20 @@ export default function ReadingCalendar({ readingData }) {
           <ul className="calendar-detail-list">
             {selectedBooks.map((book, i) => (
               <li key={i} className="calendar-detail-item">
-                {book.coverUrl ? (
-                  <img src={book.coverUrl} alt="" className="calendar-detail-cover" />
-                ) : (
-                  <span className="calendar-detail-cover-placeholder">📚</span>
+                {book.coverUrl && (
+                  <img
+                    src={book.coverUrl}
+                    alt=""
+                    className="calendar-detail-cover"
+                    onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; const ph = e.target.parentNode.querySelector('.calendar-detail-cover-placeholder'); if (ph) ph.style.display = 'inline'; }}
+                  />
                 )}
+                <span
+                  className="calendar-detail-cover-placeholder"
+                  style={{ display: book.coverUrl ? 'none' : 'inline' }}
+                >
+                  📚
+                </span>
                 <span className="calendar-detail-book-title">{book.title}</span>
               </li>
             ))}

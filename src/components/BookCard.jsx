@@ -1,5 +1,12 @@
 import './BookCard.css';
 
+const handleImgError = (e) => {
+  e.target.onerror = null;
+  e.target.style.display = 'none';
+  const placeholder = e.target.parentNode.querySelector('.book-card-cover-placeholder');
+  if (placeholder) placeholder.style.display = 'flex';
+};
+
 export default function BookCard({ book, onClick }) {
   return (
     <div
@@ -10,11 +17,20 @@ export default function BookCard({ book, onClick }) {
       tabIndex={0}
     >
       <div className="book-card-cover-wrap">
-        {book.coverUrl ? (
-          <img src={book.coverUrl} alt={book.title} className="book-card-cover" />
-        ) : (
-          <div className="book-card-cover book-card-cover-placeholder">📚</div>
+        {book.coverUrl && (
+          <img
+            src={book.coverUrl}
+            alt={book.title}
+            className="book-card-cover"
+            onError={handleImgError}
+          />
         )}
+        <div
+          className="book-card-cover book-card-cover-placeholder"
+          style={{ display: book.coverUrl ? 'none' : 'flex' }}
+        >
+          📚
+        </div>
         {book.favorite && <span className="book-card-fav">❤️</span>}
         {book.readCount > 0 && (
           <span className="book-card-count">{book.readCount}かい</span>

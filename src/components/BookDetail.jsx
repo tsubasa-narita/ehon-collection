@@ -131,11 +131,20 @@ export default function BookDetail({ book, onBack, onUpdate }) {
 
       {/* Cover */}
       <div className="detail-cover-section animate-fade-in">
-        {currentBook.coverUrl ? (
-          <img src={currentBook.coverUrl} alt={currentBook.title} className="detail-cover" />
-        ) : (
-          <div className="detail-cover detail-cover-placeholder">📚</div>
+        {currentBook.coverUrl && (
+          <img
+            src={currentBook.coverUrl}
+            alt={currentBook.title}
+            className="detail-cover"
+            onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; e.target.parentNode.querySelector('.detail-cover-placeholder').style.display = 'flex'; }}
+          />
         )}
+        <div
+          className="detail-cover detail-cover-placeholder"
+          style={{ display: currentBook.coverUrl ? 'none' : 'flex' }}
+        >
+          📚
+        </div>
       </div>
 
       {/* Info */}

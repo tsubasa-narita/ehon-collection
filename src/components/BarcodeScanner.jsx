@@ -207,17 +207,20 @@ export default function BarcodeScanner({ onBookAdded, onClose, onViewExisting })
         {mode === 'result' && bookInfo && (
           <div className="scanner-body">
             <div className="book-preview animate-bounce-in">
-              {bookInfo.coverUrl ? (
+              {bookInfo.coverUrl && (
                 <img
                   src={bookInfo.coverUrl}
                   alt={bookInfo.title}
                   className="preview-cover"
+                  onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; e.target.parentNode.querySelector('.preview-cover-placeholder').style.display = 'flex'; }}
                 />
-              ) : (
-                <div className="preview-cover preview-cover-placeholder">
-                  📚
-                </div>
               )}
+              <div
+                className="preview-cover preview-cover-placeholder"
+                style={{ display: bookInfo.coverUrl ? 'none' : 'flex' }}
+              >
+                📚
+              </div>
               <div className="preview-info">
                 <h3 className="preview-title">{bookInfo.title}</h3>
                 <p className="preview-author">{bookInfo.author}</p>

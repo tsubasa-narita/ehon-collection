@@ -12,7 +12,7 @@ export async function fetchBookInfo(isbn) {
     if (result) {
       // openBDでカバー画像がなければNDLサムネイルを試す
       if (!result.coverUrl) {
-        result.coverUrl = await fetchNdlThumbnail(cleanIsbn);
+        result.coverUrl = getNdlThumbnailUrl(cleanIsbn);
       }
       return result;
     }
@@ -26,7 +26,7 @@ export async function fetchBookInfo(isbn) {
     if (result) {
       // Google BooksでもカバーがなければNDLを試す
       if (!result.coverUrl) {
-        result.coverUrl = await fetchNdlThumbnail(cleanIsbn);
+        result.coverUrl = getNdlThumbnailUrl(cleanIsbn);
       }
       return result;
     }
@@ -81,14 +81,9 @@ async function fetchFromGoogleBooks(isbn) {
 /**
  * 国立国会図書館サムネイルAPI
  * URLにISBNを含めるだけで書影画像が取得できる（存在すれば200、なければ404）
+ * 注: NDLはCORSヘッダを返さないためfetchでの事前チェックは不可。
+ * <img>タグはCORS制約を受けないので、URLを直接返してimg側でエラーハンドリングする。
  */
-async function fetchNdlThumbnail(isbn) {
-  const url = `https://ndlsearch.ndl.go.jp/thumbnail/${isbn}.jpg`;
-  try {
-    const res = await fetch(url, { method: 'HEAD' });
-    if (res.ok) return url;
-  } catch {
-    // NDL unreachable
-  }
-  return '';
+function getNdlThumbnailUrl(isbn) {
+  return `https://ndlsearch.ndl.go.jp/thumbnail/${isbn}.jpg`;
 }
