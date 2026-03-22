@@ -1,5 +1,5 @@
 /**
- * openBD API / Google Books API から書籍情報を取得する
+ * openBD API / Google Books API / 国立国会図書館 から書籍情報を取得する
  */
 
 export async function fetchBookInfo(isbn) {
@@ -9,7 +9,13 @@ export async function fetchBookInfo(isbn) {
   // 1. openBD を最初に試す（日本の書籍に強い）
   try {
     const result = await fetchFromOpenBD(cleanIsbn);
-    if (result) return result;
+    if (result) {
+      // openBDでカバー画像がなければNDLサムネイルを試す
+      if (!result.coverUrl) {
+        result.coverUrl = await fetchNdlThumbnail(cleanIsbn);
+      }
+      return result;
+    }
   } catch (e) {
     console.warn('openBD fetch failed:', e);
   }
@@ -17,7 +23,13 @@ export async function fetchBookInfo(isbn) {
   // 2. Google Books にフォールバック
   try {
     const result = await fetchFromGoogleBooks(cleanIsbn);
-    if (result) return result;
+    if (result) {
+      // Google BooksでもカバーがなければNDLを試す
+      if (!result.coverUrl) {
+        result.coverUrl = await fetchNdlThumbnail(cleanIsbn);
+      }
+      return result;
+    }
   } catch (e) {
     console.warn('Google Books fetch failed:', e);
   }
@@ -64,4 +76,19 @@ async function fetchFromGoogleBooks(isbn) {
     coverUrl: info.imageLinks?.thumbnail?.replace('http:', 'https:') || '',
     source: 'googlebooks',
   };
+}
+
+/**
+ * 国立国会図書館サムネイルAPI
+ * URLにISBNを含めるだけで書影画像が取得できる（存在すれば200、なければ404）
+ */
+async function fetchNdlThumbnail(isbn) {
+  const url = `https://ndlsearch.ndl.go.jp/thumbnail/${isbn}.jpg`;
+  try {
+    const res = await fetch(url, { method: 'HEAD' });
+    if (res.ok) return url;
+  } catch {
+    // NDL unreachable
+  }
+  return '';
 }
