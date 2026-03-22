@@ -1,10 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import TrainMap from './components/TrainMap';
 import BookList from './components/BookList';
 import BookDetail from './components/BookDetail';
 import BarcodeScanner from './components/BarcodeScanner';
 import StatsPage from './components/StatsPage';
+import Onboarding from './components/Onboarding';
 import TabBar from './components/TabBar';
+import { useBookDB } from './hooks/useBookDB';
 import './App.css';
 
 function App() {
@@ -12,6 +14,20 @@ function App() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [showScanner, setShowScanner] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const { getSetting, setSetting } = useBookDB();
+
+  useEffect(() => {
+    (async () => {
+      const done = await getSetting('onboardingDone');
+      if (!done) setShowOnboarding(true);
+    })();
+  }, []);
+
+  const handleOnboardingComplete = async () => {
+    setShowOnboarding(false);
+    await setSetting('onboardingDone', true);
+  };
 
   const refresh = useCallback(() => {
     setRefreshKey((k) => k + 1);
@@ -21,6 +37,11 @@ function App() {
     setShowScanner(false);
     setActiveTab('books');
     refresh();
+  };
+
+  const handleViewExisting = (book) => {
+    setShowScanner(false);
+    setSelectedBook(book);
   };
 
   const handleSelectBook = (book) => {
@@ -75,7 +96,13 @@ function App() {
         <BarcodeScanner
           onBookAdded={handleBookAdded}
           onClose={() => setShowScanner(false)}
+          onViewExisting={handleViewExisting}
         />
+      )}
+
+      {/* Onboarding */}
+      {showOnboarding && (
+        <Onboarding onComplete={handleOnboardingComplete} />
       )}
     </div>
   );

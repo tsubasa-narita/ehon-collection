@@ -207,6 +207,44 @@
   margin-top: var(--space-md);
 }
 
+.scanner-error-text {
+  white-space: pre-line;
+  margin-bottom: var(--space-sm);
+}
+
+.scanner-error-actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.scanner-error-btn {
+  font-size: var(--font-size-sm);
+  min-height: 40px;
+}
+
+/* Loading overlay during ISBN lookup */
+.scanner-lookup-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+}
+
+.spinner-lg {
+  width: 48px;
+  height: 48px;
+  border-width: 4px;
+}
+
+.scanner-lookup-text {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-bold);
+}
+
 .animate-shake {
   animation: shake 0.4s ease;
 }

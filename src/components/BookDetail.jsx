@@ -4,6 +4,7 @@ import { useVoice } from '../hooks/useVoice';
 import { useSound } from '../hooks/useSound';
 import { getUnlockedTrains, getCurrentStation } from '../utils/trainData';
 import GachaAnimation from './GachaAnimation';
+import ConfirmModal from './ConfirmModal';
 import VoiceButton from './VoiceButton';
 import './BookDetail.css';
 
@@ -11,12 +12,12 @@ export default function BookDetail({ book, onBack, onUpdate }) {
   const [currentBook, setCurrentBook] = useState(book);
   const [celebrating, setCelebrating] = useState(false);
   const [gachaTrain, setGachaTrain] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { markAsRead, toggleFavorite, deleteBook, getTotalReadCount } = useBookDB();
   const { speak } = useVoice();
   const { playStationArrival } = useSound();
 
   const handleMarkRead = async () => {
-    // 読了前の状態を記録
     const oldCount = await getTotalReadCount();
     const oldTrains = getUnlockedTrains(oldCount);
     const oldStation = getCurrentStation(oldCount);
@@ -28,17 +29,14 @@ export default function BookDetail({ book, onBack, onUpdate }) {
       speak('すごい！えほんをよめたね！');
       if (onUpdate) onUpdate(updated);
 
-      // 新しい状態を確認
       const newCount = await getTotalReadCount();
       const newTrains = getUnlockedTrains(newCount);
       const newStation = getCurrentStation(newCount);
 
-      // 新しい駅に到達したらサウンド再生
       if (newStation.id !== oldStation.id) {
         playStationArrival(newStation.id);
       }
 
-      // 新しい電車がアンロックされたか
       const newlyUnlocked = newTrains.filter(
         (t) => !oldTrains.find((o) => o.id === t.id)
       );
@@ -64,11 +62,10 @@ export default function BookDetail({ book, onBack, onUpdate }) {
   };
 
   const handleDelete = async () => {
-    if (window.confirm('このえほんをけしてもいいですか？')) {
-      await deleteBook(currentBook.id);
-      if (onUpdate) onUpdate(null);
-      onBack();
-    }
+    await deleteBook(currentBook.id);
+    setShowDeleteConfirm(false);
+    if (onUpdate) onUpdate(null);
+    onBack();
   };
 
   return (
@@ -105,12 +102,30 @@ export default function BookDetail({ book, onBack, onUpdate }) {
         />
       )}
 
+      {/* Delete confirmation modal */}
+      {showDeleteConfirm && (
+        <ConfirmModal
+          title="🗑️ さくじょ"
+          message="このえほんをけしてもいいですか？"
+          confirmLabel="けす"
+          cancelLabel="やめる"
+          danger
+          onConfirm={handleDelete}
+          onCancel={() => setShowDeleteConfirm(false)}
+        />
+      )}
+
       {/* Header */}
       <div className="detail-header">
-        <button className="btn-ghost detail-back" onClick={onBack}>
-          ← もどる
+        <button className="detail-back-btn" onClick={onBack} aria-label="もどる">
+          <span className="detail-back-icon">←</span>
+          <span className="detail-back-label">もどる</span>
         </button>
-        <button className="btn-ghost" onClick={handleDelete}>
+        <button
+          className="detail-delete-btn"
+          onClick={() => setShowDeleteConfirm(true)}
+          aria-label="さくじょ"
+        >
           🗑️
         </button>
       </div>

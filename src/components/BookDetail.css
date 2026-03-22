@@ -5,8 +5,46 @@
   margin-bottom: var(--space-md);
 }
 
-.detail-back {
+.detail-back-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: var(--touch-min);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
   font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-secondary);
+  transition: transform var(--transition-fast);
+}
+.detail-back-btn:active {
+  transform: scale(0.95);
+}
+
+.detail-back-icon {
+  font-size: var(--font-size-lg);
+}
+
+.detail-back-label {
+  font-size: var(--font-size-sm);
+}
+
+.detail-delete-btn {
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  transition: transform var(--transition-fast);
+}
+.detail-delete-btn:active {
+  transform: scale(0.9);
 }
 
 /* Cover */

@@ -5,12 +5,13 @@ import { useBookDB } from '../hooks/useBookDB';
 import { useVoice } from '../hooks/useVoice';
 import './BarcodeScanner.css';
 
-export default function BarcodeScanner({ onBookAdded, onClose }) {
+export default function BarcodeScanner({ onBookAdded, onClose, onViewExisting }) {
   const [mode, setMode] = useState('scan'); // 'scan' | 'manual' | 'result'
   const [manualIsbn, setManualIsbn] = useState('');
   const [bookInfo, setBookInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [existingBook, setExistingBook] = useState(null);
   const [scannerReady, setScannerReady] = useState(false);
   const scannerRef = useRef(null);
   const scannerInstanceRef = useRef(null);
@@ -40,11 +41,12 @@ export default function BarcodeScanner({ onBookAdded, onClose }) {
           aspectRatio: 1.0,
         },
         onScanSuccess,
-        () => {} // ignore scan errors
+        () => {}
       );
       setScannerReady(true);
     } catch (err) {
       console.warn('Camera not available:', err);
+      speak('カメラがつかえないので、ばんごうをいれてね');
       setMode('manual');
     }
   };
@@ -53,7 +55,7 @@ export default function BarcodeScanner({ onBookAdded, onClose }) {
     if (scannerInstanceRef.current) {
       try {
         const state = scannerInstanceRef.current.getState();
-        if (state === 2) { // SCANNING
+        if (state === 2) {
           await scannerInstanceRef.current.stop();
         }
       } catch (e) {
@@ -74,11 +76,12 @@ export default function BarcodeScanner({ onBookAdded, onClose }) {
     setLoading(true);
     setError('');
     setBookInfo(null);
+    setExistingBook(null);
 
     try {
-      // Check if already registered
       const existing = await getBookByIsbn(isbn);
       if (existing) {
+        setExistingBook(existing);
         setError('このえほんはもうとうろくされています');
         speak('このえほんはもうとうろくされています');
         setLoading(false);
@@ -91,11 +94,11 @@ export default function BarcodeScanner({ onBookAdded, onClose }) {
         setMode('result');
         speak(`${info.title} がみつかりました！`);
       } else {
-        setError('えほんのじょうほうがみつかりませんでした');
+        setError('えほんのじょうほうがみつかりませんでした。\nばんごうをかくにんするか、てでいれてみてね。');
         speak('えほんがみつかりませんでした');
       }
     } catch (e) {
-      setError('ネットワークエラーが発生しました');
+      setError('ネットワークエラーです。\nインターネットにつながっているかかくにんしてね。');
     }
     setLoading(false);
   };
@@ -123,8 +126,15 @@ export default function BarcodeScanner({ onBookAdded, onClose }) {
   const handleRetry = () => {
     setBookInfo(null);
     setError('');
+    setExistingBook(null);
     setManualIsbn('');
     setMode('scan');
+  };
+
+  const handleViewExisting = () => {
+    if (existingBook && onViewExisting) {
+      onViewExisting(existingBook);
+    }
   };
 
   return (
@@ -224,10 +234,25 @@ export default function BarcodeScanner({ onBookAdded, onClose }) {
           </div>
         )}
 
+        {/* Loading overlay during ISBN lookup (scan mode) */}
+        {loading && mode === 'scan' && (
+          <div className="scanner-lookup-loading animate-fade-in">
+            <div className="spinner spinner-lg" />
+            <p className="scanner-lookup-text">えほんをさがしています...</p>
+          </div>
+        )}
+
         {error && (
           <div className="scanner-error animate-shake">
-            <p>⚠️ {error}</p>
-            <button className="btn-ghost" onClick={handleRetry}>やりなおす</button>
+            <p className="scanner-error-text">⚠️ {error}</p>
+            <div className="scanner-error-actions">
+              {existingBook && onViewExisting && (
+                <button className="btn-primary scanner-error-btn" onClick={handleViewExisting}>
+                  📖 このえほんをみる
+                </button>
+              )}
+              <button className="btn-ghost scanner-error-btn" onClick={handleRetry}>やりなおす</button>
+            </div>
           </div>
         )}
       </div>
