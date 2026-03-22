@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useBookDB } from '../hooks/useBookDB';
 import { useVoice } from '../hooks/useVoice';
+import { useSound } from '../hooks/useSound';
 import { STATIONS, getUnlockedTrains, getNextTrain, getCurrentStation, RARITY_CONFIG } from '../utils/trainData';
 import VoiceButton from './VoiceButton';
 import './TrainMap.css';
@@ -12,6 +13,7 @@ export default function TrainMap({ refreshKey }) {
   const [showTrainDetail, setShowTrainDetail] = useState(null);
   const { getTotalReadCount } = useBookDB();
   const { speak } = useVoice();
+  const { soundEnabled, toggleSound } = useSound();
 
   useEffect(() => {
     loadData();
@@ -31,9 +33,19 @@ export default function TrainMap({ refreshKey }) {
       {/* Header */}
       <div className="map-header animate-fade-in">
         <h1 className="map-title">🚂 でんしゃマップ</h1>
-        <div className="map-counter">
-          <span className="counter-number">{totalReadCount}</span>
-          <span className="counter-label">さつ よんだよ！</span>
+        <div className="map-header-right">
+          <button
+            className="sound-toggle-btn"
+            onClick={toggleSound}
+            aria-label={soundEnabled ? 'おとをけす' : 'おとをだす'}
+            title={soundEnabled ? 'おとをけす' : 'おとをだす'}
+          >
+            {soundEnabled ? '🔊' : '🔇'}
+          </button>
+          <div className="map-counter">
+            <span className="counter-number">{totalReadCount}</span>
+            <span className="counter-label">さつ よんだよ！</span>
+          </div>
         </div>
       </div>
 

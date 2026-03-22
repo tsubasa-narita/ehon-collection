@@ -1,0 +1,17 @@
+/* ===== Stats Page ===== */
+.stats-page-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  margin-bottom: var(--space-lg);
+}
+
+.stats-section {
+  margin-bottom: var(--space-lg);
+}
+
+.stats-section-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-black);
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}

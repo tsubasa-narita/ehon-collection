@@ -1,0 +1,112 @@
+/* ===== Reminder Settings ===== */
+.reminder {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.reminder-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reminder-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Toggle switch */
+.reminder-switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.reminder-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.reminder-slider {
+  position: absolute;
+  inset: 0;
+  background: #ccc;
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+
+.reminder-slider::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  transition: transform var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.reminder-switch input:checked + .reminder-slider {
+  background: var(--color-primary);
+}
+
+.reminder-switch input:checked + .reminder-slider::before {
+  transform: translateX(24px);
+}
+
+/* Time input */
+.reminder-time-input {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  padding: var(--space-sm) var(--space-md);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-md);
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.reminder-time-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Permission */
+.reminder-permission {
+  text-align: center;
+}
+
+.reminder-perm-btn {
+  width: 100%;
+  font-size: var(--font-size-sm) !important;
+  min-height: 44px !important;
+}
+
+.reminder-perm-ok {
+  color: var(--color-success);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+}
+
+.reminder-perm-denied {
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+}
+
+.reminder-perm-hint {
+  font-weight: var(--font-weight-normal);
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+}

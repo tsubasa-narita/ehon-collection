@@ -1,23 +1,54 @@
 import { useState } from 'react';
 import { useBookDB } from '../hooks/useBookDB';
 import { useVoice } from '../hooks/useVoice';
+import { useSound } from '../hooks/useSound';
+import { getUnlockedTrains, getCurrentStation } from '../utils/trainData';
+import GachaAnimation from './GachaAnimation';
 import VoiceButton from './VoiceButton';
 import './BookDetail.css';
 
 export default function BookDetail({ book, onBack, onUpdate }) {
   const [currentBook, setCurrentBook] = useState(book);
   const [celebrating, setCelebrating] = useState(false);
-  const { markAsRead, toggleFavorite, deleteBook } = useBookDB();
+  const [gachaTrain, setGachaTrain] = useState(null);
+  const { markAsRead, toggleFavorite, deleteBook, getTotalReadCount } = useBookDB();
   const { speak } = useVoice();
+  const { playStationArrival } = useSound();
 
   const handleMarkRead = async () => {
+    // 読了前の状態を記録
+    const oldCount = await getTotalReadCount();
+    const oldTrains = getUnlockedTrains(oldCount);
+    const oldStation = getCurrentStation(oldCount);
+
     const updated = await markAsRead(currentBook.id);
     if (updated) {
       setCurrentBook(updated);
       setCelebrating(true);
       speak('すごい！えほんをよめたね！');
       if (onUpdate) onUpdate(updated);
-      setTimeout(() => setCelebrating(false), 3000);
+
+      // 新しい状態を確認
+      const newCount = await getTotalReadCount();
+      const newTrains = getUnlockedTrains(newCount);
+      const newStation = getCurrentStation(newCount);
+
+      // 新しい駅に到達したらサウンド再生
+      if (newStation.id !== oldStation.id) {
+        playStationArrival(newStation.id);
+      }
+
+      // 新しい電車がアンロックされたか
+      const newlyUnlocked = newTrains.filter(
+        (t) => !oldTrains.find((o) => o.id === t.id)
+      );
+
+      setTimeout(() => {
+        setCelebrating(false);
+        if (newlyUnlocked.length > 0) {
+          setGachaTrain(newlyUnlocked[0]);
+        }
+      }, 3000);
     }
   };
 
@@ -64,6 +95,14 @@ export default function BookDetail({ book, onBack, onUpdate }) {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Gacha animation */}
+      {gachaTrain && (
+        <GachaAnimation
+          train={gachaTrain}
+          onComplete={() => setGachaTrain(null)}
+        />
       )}
 
       {/* Header */}

@@ -4,6 +4,7 @@ import './TabBar.css';
 export default function TabBar({ activeTab, onTabChange, onScanClick }) {
   const tabs = [
     { key: 'map', label: 'マップ', emoji: '🗺️', voice: 'でんしゃマップ' },
+    { key: 'stats', label: 'きろく', emoji: '📊', voice: 'きろく' },
     { key: 'books', label: 'えほん', emoji: '📚', voice: 'えほんリスト' },
   ];
 

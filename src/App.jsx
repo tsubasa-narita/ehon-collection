@@ -3,6 +3,7 @@ import TrainMap from './components/TrainMap';
 import BookList from './components/BookList';
 import BookDetail from './components/BookDetail';
 import BarcodeScanner from './components/BarcodeScanner';
+import StatsPage from './components/StatsPage';
 import TabBar from './components/TabBar';
 import './App.css';
 
@@ -16,7 +17,7 @@ function App() {
     setRefreshKey((k) => k + 1);
   }, []);
 
-  const handleBookAdded = (book) => {
+  const handleBookAdded = () => {
     setShowScanner(false);
     setActiveTab('books');
     refresh();
@@ -54,6 +55,7 @@ function App() {
     <div className="app">
       {/* Main content */}
       {activeTab === 'map' && <TrainMap refreshKey={refreshKey} />}
+      {activeTab === 'stats' && <StatsPage refreshKey={refreshKey} />}
       {activeTab === 'books' && (
         <BookList
           onSelectBook={handleSelectBook}

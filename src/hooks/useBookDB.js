@@ -99,6 +99,110 @@ export function useBookDB() {
     await db.put('settings', { key, value });
   };
 
+  /**
+   * 読書日付ごとのデータ集約: Map<'YYYY-MM-DD', Array<{id, title, coverUrl}>>
+   */
+  const getReadingDataByDate = async () => {
+    const books = await getAllBooks();
+    const dateMap = new Map();
+    for (const book of books) {
+      for (const dateStr of book.readDates || []) {
+        const dateKey = dateStr.slice(0, 10);
+        if (!dateMap.has(dateKey)) dateMap.set(dateKey, []);
+        dateMap.get(dateKey).push({
+          id: book.id,
+          title: book.title,
+          coverUrl: book.coverUrl,
+        });
+      }
+    }
+    return dateMap;
+  };
+
+  /**
+   * 全データエクスポート
+   */
+  const exportAllData = async () => {
+    const books = await getAllBooks();
+    const db = await getDB();
+    const allSettings = await db.getAll('settings');
+    const settings = {};
+    for (const s of allSettings) {
+      settings[s.key] = s.value;
+    }
+    return { books, settings };
+  };
+
+  /**
+   * データインポート
+   * @param {object} data - { books: [], settings: {} }
+   * @param {'merge'|'replace'} mode
+   * @returns {number} インポートされた件数
+   */
+  const importData = async (data, mode) => {
+    const db = await getDB();
+    let importedCount = 0;
+
+    const normalizeBook = (bookData) => ({
+      ...bookData,
+      status: bookData.status || 'unread',
+      readCount: bookData.readCount || 0,
+      readDates: bookData.readDates || [],
+      favorite: bookData.favorite || false,
+      createdAt: bookData.createdAt || new Date().toISOString(),
+    });
+
+    if (mode === 'replace') {
+      // 単一トランザクションで原子的にclear→insert
+      const tx = db.transaction('books', 'readwrite');
+      await tx.store.clear();
+      for (const book of data.books) {
+        const { id, ...bookData } = book;
+        await tx.store.add(normalizeBook(bookData));
+        importedCount++;
+      }
+      await tx.done;
+    } else {
+      // merge: ISBNまたはtitle+authorで既存を照合
+      const allExisting = await getAllBooks();
+      for (const book of data.books) {
+        const { id, ...bookData } = book;
+        // ISBNで照合、なければtitle+authorで照合
+        let existing = null;
+        if (bookData.isbn) {
+          existing = allExisting.find((b) => b.isbn === bookData.isbn);
+        }
+        if (!existing && bookData.title) {
+          existing = allExisting.find(
+            (b) => b.title === bookData.title && b.author === bookData.author
+          );
+        }
+
+        if (existing) {
+          if ((bookData.readCount || 0) > (existing.readCount || 0)) {
+            existing.readCount = bookData.readCount;
+            existing.readDates = bookData.readDates || existing.readDates;
+            existing.status = bookData.status || existing.status;
+            await db.put('books', existing);
+            importedCount++;
+          }
+        } else {
+          await db.add('books', normalizeBook(bookData));
+          importedCount++;
+        }
+      }
+    }
+
+    // 設定インポート（常にマージ上書き）
+    if (data.settings && typeof data.settings === 'object') {
+      for (const [key, value] of Object.entries(data.settings)) {
+        await setSetting(key, value);
+      }
+    }
+
+    return importedCount;
+  };
+
   return {
     addBook,
     updateBook,
@@ -111,5 +215,8 @@ export function useBookDB() {
     getTotalReadCount,
     getSetting,
     setSetting,
+    getReadingDataByDate,
+    exportAllData,
+    importData,
   };
 }
