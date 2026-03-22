@@ -3,7 +3,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 2000;
+  z-index: var(--z-onboarding);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,7 +52,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #ddd;
+  background: var(--color-station-locked);
   transition: all var(--transition-fast);
 }
 
@@ -66,8 +66,8 @@
   margin-top: var(--space-sm);
 }
 
-.onboarding-skip {
-  font-size: var(--font-size-sm) !important;
-  color: var(--text-light) !important;
-  min-height: 36px !important;
+.onboarding-card .onboarding-skip {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  min-height: var(--touch-min);
 }

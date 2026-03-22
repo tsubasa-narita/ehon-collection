@@ -76,6 +76,12 @@
 
   /* — Touch targets (child-friendly) — */
   --touch-min: 56px;
+
+  /* — Z-index scale — */
+  --z-celebration: 999;
+  --z-overlay: 1000;
+  --z-modal: 1200;
+  --z-onboarding: 2000;
 }
 
 /* ===== Reset & Base ===== */
@@ -227,6 +233,28 @@ a {
   background: rgba(0, 0, 0, 0.05);
 }
 
+/* Danger Button */
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: var(--touch-min);
+  padding: var(--space-md) var(--space-xl);
+  background: linear-gradient(135deg, var(--color-danger), #c62828);
+  color: var(--text-on-primary);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  user-select: none;
+}
+.btn-danger:active {
+  transform: scale(0.95);
+  box-shadow: var(--shadow-sm);
+}
+
 /* Card */
 .card {
   background: var(--bg-card);
@@ -311,4 +339,25 @@ a {
 }
 .animate-float {
   animation: float 3s ease-in-out infinite;
+}
+.animate-shake {
+  animation: shake 0.4s ease;
+}
+
+/* ===== Shared Utilities ===== */
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.spinner-lg {
+  width: 48px;
+  height: 48px;
+  border-width: 4px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

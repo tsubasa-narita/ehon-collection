@@ -51,6 +51,7 @@ export default function BookList({ onSelectBook, refreshKey }) {
           type="text"
           className="search-input"
           placeholder="タイトル・さくしゃでさがす"
+          aria-label="タイトル・さくしゃでさがす"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
@@ -78,9 +79,11 @@ export default function BookList({ onSelectBook, refreshKey }) {
         <div className="book-list-empty animate-fade-in">
           <div className="empty-emoji">🚂</div>
           <p className="empty-text">
-            {filter === 'all'
-              ? 'えほんをとうろくしよう！'
-              : 'このフィルタにあうえほんがないよ'}
+            {searchText.trim()
+              ? 'みつかりませんでした'
+              : filter === 'all'
+                ? 'えほんをとうろくしよう！'
+                : 'このフィルタにあうえほんがないよ'}
           </p>
         </div>
       ) : (

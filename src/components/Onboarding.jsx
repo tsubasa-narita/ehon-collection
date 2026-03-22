@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useVoice } from '../hooks/useVoice';
 import './Onboarding.css';
 
@@ -40,13 +40,22 @@ export default function Onboarding({ onComplete }) {
     }
   };
 
-  // 初回スライドの音声
+  const handleEscape = useCallback((e) => {
+    if (e.key === 'Escape') onComplete();
+  }, [onComplete]);
+
   useEffect(() => {
     speak(SLIDES[0].voice);
-  }, []);
+    document.addEventListener('keydown', handleEscape);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    };
+  }, [speak, handleEscape]);
 
   return (
-    <div className="onboarding-overlay">
+    <div className="onboarding-overlay" role="dialog" aria-modal="true" aria-label="つかいかたガイド">
       <div className="onboarding-card animate-bounce-in" key={current}>
         <div className="onboarding-emoji">{slide.emoji}</div>
         <h2 className="onboarding-title">{slide.title}</h2>

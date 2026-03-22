@@ -15,6 +15,7 @@ export default function BarcodeScanner({ onBookAdded, onClose, onViewExisting })
   const [scannerReady, setScannerReady] = useState(false);
   const scannerRef = useRef(null);
   const scannerInstanceRef = useRef(null);
+  const processingRef = useRef(false);
   const { addBook, getBookByIsbn } = useBookDB();
   const { speak } = useVoice();
 
@@ -67,9 +68,12 @@ export default function BarcodeScanner({ onBookAdded, onClose, onViewExisting })
   };
 
   const onScanSuccess = async (decodedText) => {
+    if (processingRef.current) return;
+    processingRef.current = true;
     await stopScanner();
     speak('バーコードをよみとりました！');
     await lookupBook(decodedText);
+    processingRef.current = false;
   };
 
   const lookupBook = async (isbn) => {
@@ -113,6 +117,7 @@ export default function BarcodeScanner({ onBookAdded, onClose, onViewExisting })
   const handleRegister = async () => {
     if (!bookInfo) return;
     setLoading(true);
+    setError('');
     try {
       const newBook = await addBook(bookInfo);
       speak(`${bookInfo.title} をとうろくしました！`);

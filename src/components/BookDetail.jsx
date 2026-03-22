@@ -65,7 +65,6 @@ export default function BookDetail({ book, onBack, onUpdate }) {
     await deleteBook(currentBook.id);
     setShowDeleteConfirm(false);
     if (onUpdate) onUpdate(null);
-    onBack();
   };
 
   return (

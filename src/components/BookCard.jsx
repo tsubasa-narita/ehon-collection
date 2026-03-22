@@ -2,7 +2,13 @@ import './BookCard.css';
 
 export default function BookCard({ book, onClick }) {
   return (
-    <div className="book-card card" onClick={() => onClick?.(book)} role="button" tabIndex={0}>
+    <div
+      className="book-card card"
+      onClick={() => onClick?.(book)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.(book); } }}
+      role="button"
+      tabIndex={0}
+    >
       <div className="book-card-cover-wrap">
         {book.coverUrl ? (
           <img src={book.coverUrl} alt={book.title} className="book-card-cover" />

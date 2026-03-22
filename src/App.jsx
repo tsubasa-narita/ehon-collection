@@ -65,6 +65,7 @@ function App() {
   if (selectedBook) {
     return (
       <BookDetail
+        key={selectedBook.id}
         book={selectedBook}
         onBack={handleBackFromDetail}
         onUpdate={handleBookUpdate}

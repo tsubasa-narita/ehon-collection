@@ -3,7 +3,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1200;
+  z-index: var(--z-modal);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,24 +46,3 @@
   flex: 1;
 }
 
-/* Danger button */
-.btn-danger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-sm);
-  min-height: var(--touch-min);
-  padding: var(--space-md) var(--space-xl);
-  background: linear-gradient(135deg, var(--color-danger), #c62828);
-  color: var(--text-on-primary);
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-bold);
-  box-shadow: var(--shadow-md);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  user-select: none;
-}
-.btn-danger:active {
-  transform: scale(0.95);
-  box-shadow: var(--shadow-sm);
-}
