@@ -1,3 +1,5 @@
+const BASE = import.meta.env.BASE_URL;
+
 /**
  * 電車コレクション定義
  * unlockAt = 累計読了冊数で解放
@@ -8,7 +10,7 @@ export const TRAINS = [
     name: 'やまのてせん',
     nameKana: 'やまのてせん',
     series: 'E235系',
-    image: '/trains/yamanote.webp',
+    image: `${BASE}trains/yamanote.webp`,
     unlockAt: 1,
     rarity: 'normal',
     color: '#9acd32',
@@ -19,7 +21,7 @@ export const TRAINS = [
     name: 'はやぶさ',
     nameKana: 'はやぶさ',
     series: 'E5系',
-    image: '/trains/hayabusa.webp',
+    image: `${BASE}trains/hayabusa.webp`,
     unlockAt: 3,
     rarity: 'rare',
     color: '#00b16a',
@@ -30,7 +32,7 @@ export const TRAINS = [
     name: 'こまち',
     nameKana: 'こまち',
     series: 'E6系',
-    image: '/trains/komachi.webp',
+    image: `${BASE}trains/komachi.webp`,
     unlockAt: 5,
     rarity: 'rare',
     color: '#e74c3c',
@@ -41,7 +43,7 @@ export const TRAINS = [
     name: 'かがやき',
     nameKana: 'かがやき',
     series: 'E7系/W7系',
-    image: '/trains/kagayaki.png',
+    image: `${BASE}trains/kagayaki.png`,
     unlockAt: 8,
     rarity: 'super_rare',
     color: '#3498db',
@@ -52,7 +54,7 @@ export const TRAINS = [
     name: 'ドクターイエロー',
     nameKana: 'どくたーいえろー',
     series: '923形',
-    image: '/trains/doctor_yellow.png',
+    image: `${BASE}trains/doctor_yellow.png`,
     unlockAt: 10,
     rarity: 'legendary',
     color: '#f1c40f',
@@ -63,7 +65,7 @@ export const TRAINS = [
     name: 'エスエル機関車',
     nameKana: 'えすえるきかんしゃ',
     series: 'D51',
-    image: '/trains/sl_locomotive.png',
+    image: `${BASE}trains/sl_locomotive.png`,
     unlockAt: 13,
     rarity: 'rare',
     color: '#2c3e50',
@@ -74,7 +76,7 @@ export const TRAINS = [
     name: 'あおいちかてつ',
     nameKana: 'あおいちかてつ',
     series: 'ちかてつ',
-    image: '/trains/subway_blue.png',
+    image: `${BASE}trains/subway_blue.png`,
     unlockAt: 16,
     rarity: 'super_rare',
     color: '#2980b9',
