@@ -11,8 +11,11 @@ export default function TrainMap({ refreshKey, showCollectionOnly = false }) {
   const [unlockedTrains, setUnlockedTrains] = useState([]);
   const [nextTrain, setNextTrain] = useState(null);
   const [showTrainDetail, setShowTrainDetail] = useState(null);
+  const [treeShake, setTreeShake] = useState(null);
+  const [cloudBounce, setCloudBounce] = useState(null);
+
   const { getTotalReadCount } = useBookDB();
-  const { speak } = useVoice();
+  const { speak, playTrainSound, playSuccessSound } = useVoice();
   const { soundEnabled, toggleSound } = useSound();
 
   useEffect(() => {
@@ -27,6 +30,27 @@ export default function TrainMap({ refreshKey, showCollectionOnly = false }) {
   };
 
   const currentStation = getCurrentStation(totalReadCount);
+  
+  // マップ上のアイコン（現在もっている中で一番レアな電車か、最新の電車）
+  const latestTrain = unlockedTrains.length > 0 
+    ? unlockedTrains[unlockedTrains.length - 1] 
+    : { image: null, name: 'でんしゃ' };
+
+  const handleTreeClick = (i) => {
+    setTreeShake(i);
+    if (soundEnabled) playSuccessSound(); // ｶｻｶｻ音の代わり
+    setTimeout(() => setTreeShake(null), 1000);
+  };
+
+  const handleCloudClick = (i) => {
+    setCloudBounce(i);
+    if (soundEnabled) playTrainSound(); // ポワーオ音など
+    setTimeout(() => setCloudBounce(null), 1000);
+  };
+
+  // 収集進捗
+  const allTrains = getUnlockedTrains(Infinity);
+  const progressPercent = Math.round((unlockedTrains.length / allTrains.length) * 100);
 
   return (
     <div className="train-map-page page">
@@ -76,10 +100,20 @@ export default function TrainMap({ refreshKey, showCollectionOnly = false }) {
           <rect width="100" height="100" fill="url(#skyGrad)" rx="3" />
 
           {/* Clouds */}
-          <ellipse cx="15" cy="12" rx="8" ry="4" fill="white" opacity="0.7">
+          <ellipse 
+            cx="15" cy="12" rx="8" ry="4" fill="white" opacity="0.7" 
+            onClick={() => handleCloudClick(1)}
+            className={`map-interactive ${cloudBounce === 1 ? 'cloud-bounce' : ''}`}
+            style={{ cursor: 'pointer' }}
+          >
             <animateTransform attributeName="transform" type="translate" values="0,0;3,0;0,0" dur="8s" repeatCount="indefinite" />
           </ellipse>
-          <ellipse cx="75" cy="20" rx="10" ry="5" fill="white" opacity="0.6">
+          <ellipse 
+            cx="75" cy="20" rx="10" ry="5" fill="white" opacity="0.6"
+            onClick={() => handleCloudClick(2)}
+            className={`map-interactive ${cloudBounce === 2 ? 'cloud-bounce' : ''}`}
+            style={{ cursor: 'pointer' }}
+          >
             <animateTransform attributeName="transform" type="translate" values="0,0;-2,0;0,0" dur="10s" repeatCount="indefinite" />
           </ellipse>
 
@@ -166,14 +200,26 @@ export default function TrainMap({ refreshKey, showCollectionOnly = false }) {
                 </text>
                 {/* Train icon at current station */}
                 {isCurrent && (
-                  <text
-                    x={station.x + 5}
-                    y={station.y + 1.5}
-                    fontSize="5"
-                    textAnchor="middle"
-                  >
-                    🚂
-                  </text>
+                  latestTrain.image ? (
+                    <image 
+                      href={latestTrain.image}
+                      x={station.x + 1}
+                      y={station.y - 4}
+                      width="8"
+                      height="8"
+                      className="map-moving-train"
+                    />
+                  ) : (
+                    <text
+                      x={station.x + 5}
+                      y={station.y + 1.5}
+                      fontSize="5"
+                      textAnchor="middle"
+                      className="map-moving-train"
+                    >
+                      🚂
+                    </text>
+                  )
                 )}
               </g>
             );
@@ -181,7 +227,12 @@ export default function TrainMap({ refreshKey, showCollectionOnly = false }) {
 
           {/* Decorative trees */}
           {[18, 45, 72, 88].map((x, i) => (
-            <g key={`tree-${i}`}>
+            <g 
+              key={`tree-${i}`} 
+              onClick={() => handleTreeClick(i)}
+              className={`map-interactive ${treeShake === i ? 'tree-shake' : ''}`}
+              style={{ cursor: 'pointer', transformOrigin: `${x}px 85px` }}
+            >
               <rect x={x - 0.5} y={84} width={1} height={3} fill="#795548" />
               <circle cx={x} cy={83} r={2.5} fill="#66bb6a" />
             </g>
@@ -192,7 +243,24 @@ export default function TrainMap({ refreshKey, showCollectionOnly = false }) {
 
       {/* Train collection */}
       <div className="train-collection animate-fade-in" style={{ animationDelay: '200ms' }}>
-        <h2 className="collection-title">🏆 でんしゃコレクション</h2>
+        <h2 className="collection-title">
+          <span className="collection-icon">🏆</span> 
+          でんしゃコレクション
+        </h2>
+        
+        {/* Progress Bar */}
+        <div className="collection-progress">
+          <div className="progress-info">
+            <span className="progress-text">{allTrains.length} しゅるい ちゅう</span>
+            <span className="progress-count">
+              <span className="progress-current">{unlockedTrains.length}</span> しゅるい あつめたよ！
+            </span>
+          </div>
+          <div className="progress-bar-bg">
+            <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }}></div>
+          </div>
+        </div>
+
         <div className="train-grid">
           {getUnlockedTrains(Infinity).map((train) => {
             const isUnlocked = train.unlockAt <= totalReadCount;
@@ -204,11 +272,14 @@ export default function TrainMap({ refreshKey, showCollectionOnly = false }) {
                 voiceText={isUnlocked ? `${train.name}、${train.description}` : `${train.name}はまだロックされています。あと${train.unlockAt - totalReadCount}さつよむとゲットできるよ！`}
                 onClick={() => isUnlocked && setShowTrainDetail(train)}
               >
-                <div className="train-image-wrap">
+                <div className="train-image-wrap glass-card">
                   {isUnlocked ? (
                     <img src={train.image} alt={train.name} className="train-image" />
                   ) : (
-                    <div className="train-image train-image-locked">🔒</div>
+                    <div className="train-silhouette-wrap">
+                      <img src={train.image} alt="???" className="train-image train-silhouette" />
+                      <div className="train-silhouette-overlay">🔒</div>
+                    </div>
                   )}
                 </div>
                 <span className="train-name">{isUnlocked ? train.name : '???'}</span>

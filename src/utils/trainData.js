@@ -41,7 +41,7 @@ export const TRAINS = [
     name: 'かがやき',
     nameKana: 'かがやき',
     series: 'E7系/W7系',
-    image: '/trains/kagayaki.webp',
+    image: '/trains/kagayaki.png',
     unlockAt: 8,
     rarity: 'super_rare',
     color: '#3498db',
@@ -52,11 +52,33 @@ export const TRAINS = [
     name: 'ドクターイエロー',
     nameKana: 'どくたーいえろー',
     series: '923形',
-    image: '/trains/doctor_yellow.webp',
+    image: '/trains/doctor_yellow.png',
     unlockAt: 10,
     rarity: 'legendary',
     color: '#f1c40f',
     description: 'みるとしあわせになれるきいろいしんかんせん！',
+  },
+  {
+    id: 'sl_locomotive',
+    name: 'エスエル機関車',
+    nameKana: 'えすえるきかんしゃ',
+    series: 'D51',
+    image: '/trains/sl_locomotive.png',
+    unlockAt: 13,
+    rarity: 'rare',
+    color: '#2c3e50',
+    description: 'シュッシュッポッポ！けむりをだしてはしるかっこいいきかんしゃ！',
+  },
+  {
+    id: 'subway_blue',
+    name: 'あおいちかてつ',
+    nameKana: 'あおいちかてつ',
+    series: 'ちかてつ',
+    image: '/trains/subway_blue.png',
+    unlockAt: 16,
+    rarity: 'super_rare',
+    color: '#2980b9',
+    description: 'くらくてもへっちゃら！ちかのトンネルをビュンビュンはしる！',
   },
 ];
 
@@ -71,6 +93,8 @@ export const STATIONS = [
   { id: 4, name: 'わくわくはし', readCount: 5, x: 55, y: 40 },
   { id: 5, name: 'きらきらやま', readCount: 8, x: 70, y: 25 },
   { id: 6, name: 'しゃりょうきち', readCount: 10, x: 85, y: 15 },
+  { id: 7, name: 'しんぴのトンネル', readCount: 13, x: 60, y: 10 },
+  { id: 8, name: 'にじのどうくつ', readCount: 16, x: 30, y: 15 },
 ];
 
 /**

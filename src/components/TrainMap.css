@@ -113,6 +113,80 @@
   display: block;
 }
 
+/* Map Interactions */
+.map-interactive {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tree-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: rotate(-3deg); }
+  20%, 80% { transform: rotate(5deg); }
+  30%, 50%, 70% { transform: rotate(-8deg); }
+  40%, 60% { transform: rotate(8deg); }
+}
+
+.cloud-bounce {
+  animation: bounce 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Collection Progress */
+.collection-progress {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-sm);
+}
+
+.progress-text {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.progress-count {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+
+.progress-current {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  color: var(--color-primary);
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+  border-radius: var(--radius-full);
+  transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 /* Train collection */
 .train-collection {
   margin-bottom: var(--space-lg);
@@ -137,8 +211,7 @@
   gap: var(--space-xs);
   padding: var(--space-sm);
   border-radius: var(--radius-lg);
-  background: var(--bg-card);
-  box-shadow: var(--shadow-sm);
+  background: transparent;
   transition: transform var(--transition-fast);
   cursor: pointer;
 }
@@ -163,6 +236,7 @@
   height: 72px;
   border-radius: var(--radius-md);
   overflow: hidden;
+  position: relative;
 }
 
 .train-image {
@@ -177,6 +251,28 @@
   justify-content: center;
   font-size: 2rem;
   background: #f5f5f5;
+}
+
+.train-silhouette-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.train-silhouette {
+  filter: brightness(0) invert(0.4);
+  opacity: 0.6;
+}
+
+.train-silhouette-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
 .train-name {
