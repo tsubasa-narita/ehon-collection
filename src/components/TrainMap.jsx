@@ -6,7 +6,7 @@ import { STATIONS, getUnlockedTrains, getNextTrain, getCurrentStation, RARITY_CO
 import VoiceButton from './VoiceButton';
 import './TrainMap.css';
 
-export default function TrainMap({ refreshKey }) {
+export default function TrainMap({ refreshKey, showCollectionOnly = false }) {
   const [totalReadCount, setTotalReadCount] = useState(0);
   const [unlockedTrains, setUnlockedTrains] = useState([]);
   const [nextTrain, setNextTrain] = useState(null);
@@ -32,7 +32,7 @@ export default function TrainMap({ refreshKey }) {
     <div className="train-map-page page">
       {/* Header */}
       <div className="map-header animate-fade-in">
-        <h1 className="map-title">🚂 でんしゃマップ</h1>
+        <h1 className="map-title">{showCollectionOnly ? '🏆 でんしゃずかん' : '🚂 でんしゃマップ'}</h1>
         <div className="map-header-right">
           <button
             className="sound-toggle-btn"
@@ -50,7 +50,7 @@ export default function TrainMap({ refreshKey }) {
       </div>
 
       {/* Next goal */}
-      {nextTrain && (
+      {!showCollectionOnly && nextTrain && (
         <div className="next-goal animate-fade-in">
           <div className="goal-label">つぎのでんしゃまであと</div>
           <div className="goal-remaining">
@@ -61,7 +61,8 @@ export default function TrainMap({ refreshKey }) {
         </div>
       )}
 
-      {/* Map */}
+      {/* Map (hidden in collection-only mode) */}
+      {!showCollectionOnly && (
       <div className="map-container animate-fade-in" style={{ animationDelay: '100ms' }}>
         <svg viewBox="0 0 100 100" className="map-svg">
           {/* Sky gradient */}
@@ -187,6 +188,7 @@ export default function TrainMap({ refreshKey }) {
           ))}
         </svg>
       </div>
+      )}
 
       {/* Train collection */}
       <div className="train-collection animate-fade-in" style={{ animationDelay: '200ms' }}>

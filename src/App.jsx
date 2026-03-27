@@ -1,16 +1,27 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useMode } from './contexts/ModeContext';
 import TrainMap from './components/TrainMap';
 import BookList from './components/BookList';
 import BookDetail from './components/BookDetail';
 import BarcodeScanner from './components/BarcodeScanner';
 import StatsPage from './components/StatsPage';
+import ParentSettingsPage from './components/ParentSettingsPage';
 import Onboarding from './components/Onboarding';
-import TabBar from './components/TabBar';
+import ModeSelector from './components/ModeSelector';
+import ChildTabBar from './components/ChildTabBar';
+import ParentTabBar from './components/ParentTabBar';
+import ChildBookShelf from './components/ChildBookShelf';
 import { useBookDB } from './hooks/useBookDB';
 import './App.css';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('map');
+  const { mode, setMode, loading: modeLoading } = useMode();
+
+  // Child mode tabs: map, books, collection
+  const [childTab, setChildTab] = useState('map');
+  // Parent mode tabs: books, stats, settings
+  const [parentTab, setParentTab] = useState('books');
+
   const [selectedBook, setSelectedBook] = useState(null);
   const [showScanner, setShowScanner] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -35,7 +46,11 @@ function App() {
 
   const handleBookAdded = () => {
     setShowScanner(false);
-    setActiveTab('books');
+    if (mode === 'parent') {
+      setParentTab('books');
+    } else {
+      setChildTab('books');
+    }
     refresh();
   };
 
@@ -61,7 +76,44 @@ function App() {
     setSelectedBook(null);
   };
 
-  // Book detail view
+  // Mode switching
+  const handleSwitchToParent = () => {
+    setMode('parent');
+    setParentTab('books');
+  };
+
+  const handleSwitchToChild = () => {
+    setMode('child');
+    setChildTab('map');
+  };
+
+  const handleSelectMode = (selectedMode) => {
+    setMode(selectedMode);
+  };
+
+  // Loading state
+  if (modeLoading) {
+    return (
+      <div className="app-loading">
+        <div className="app-loading-train">🚂</div>
+        <p className="app-loading-text">よみこみちゅう...</p>
+      </div>
+    );
+  }
+
+  // Mode selector (first time or no mode set)
+  if (!mode) {
+    return (
+      <>
+        <ModeSelector onSelectMode={handleSelectMode} />
+        {showOnboarding && (
+          <Onboarding onComplete={handleOnboardingComplete} />
+        )}
+      </>
+    );
+  }
+
+  // Book detail view (shared between modes)
   if (selectedBook) {
     return (
       <BookDetail
@@ -73,23 +125,73 @@ function App() {
     );
   }
 
-  return (
-    <div className="app">
-      {/* Main content */}
-      {activeTab === 'map' && <TrainMap refreshKey={refreshKey} />}
-      {activeTab === 'stats' && <StatsPage refreshKey={refreshKey} />}
-      {activeTab === 'books' && (
-        <BookList
-          onSelectBook={handleSelectBook}
-          refreshKey={refreshKey}
-        />
-      )}
+  // ==========================================
+  // 子どもモード (Child Mode)
+  // ==========================================
+  if (mode === 'child') {
+    return (
+      <div className="app app-child">
+        {/* Main content */}
+        <div className="app-content">
+          {childTab === 'map' && <TrainMap refreshKey={refreshKey} />}
+          {childTab === 'books' && (
+            <ChildBookShelf
+              onSelectBook={handleSelectBook}
+              refreshKey={refreshKey}
+            />
+          )}
+          {childTab === 'collection' && <TrainMap refreshKey={refreshKey} showCollectionOnly />}
+        </div>
 
-      {/* Tab bar */}
-      <TabBar
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
+        {/* Child Tab Bar */}
+        <ChildTabBar
+          activeTab={childTab}
+          onTabChange={setChildTab}
+          onSwitchMode={handleSwitchToParent}
+        />
+
+        {/* Scanner overlay */}
+        {showScanner && (
+          <BarcodeScanner
+            onBookAdded={handleBookAdded}
+            onClose={() => setShowScanner(false)}
+            onViewExisting={handleViewExisting}
+          />
+        )}
+
+        {/* Onboarding */}
+        {showOnboarding && (
+          <Onboarding onComplete={handleOnboardingComplete} />
+        )}
+      </div>
+    );
+  }
+
+  // ==========================================
+  // 親モード (Parent Mode)
+  // ==========================================
+  return (
+    <div className="app app-parent">
+      {/* Main content */}
+      <div className="app-content">
+        {parentTab === 'books' && (
+          <BookList
+            onSelectBook={handleSelectBook}
+            refreshKey={refreshKey}
+          />
+        )}
+        {parentTab === 'stats' && <StatsPage refreshKey={refreshKey} />}
+        {parentTab === 'settings' && (
+          <ParentSettingsPage onDataChanged={refresh} />
+        )}
+      </div>
+
+      {/* Parent Tab Bar */}
+      <ParentTabBar
+        activeTab={parentTab}
+        onTabChange={setParentTab}
         onScanClick={() => setShowScanner(true)}
+        onSwitchMode={handleSwitchToChild}
       />
 
       {/* Scanner overlay */}

@@ -3,11 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { SoundProvider } from './hooks/useSound'
+import { ModeProvider } from './contexts/ModeContext'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <SoundProvider>
-      <App />
+      <ModeProvider>
+        <App />
+      </ModeProvider>
     </SoundProvider>
   </StrictMode>,
 )

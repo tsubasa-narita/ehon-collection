@@ -25,7 +25,11 @@
   --bg-ground: #f1f8e9;
   --bg-card: #ffffff;
   --bg-page: #f0f7ff;
-  --bg-parent: #fafafa;
+  --bg-parent: #f8fafc;
+
+  /* — Mode-specific backgrounds — */
+  --child-bg: linear-gradient(160deg, #e0f2fe 0%, #f0f9ff 40%, #ecfdf5 100%);
+  --parent-bg: #f8fafc;
 
   /* — Text — */
   --text-primary: #212121;
@@ -360,4 +364,34 @@ a {
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* ===== Glassmorphism Utility ===== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+.glass-card-dark {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Mode-specific Page Backgrounds ===== */
+.app-child .train-map-page {
+  background: linear-gradient(160deg, #e0f7fa 0%, #b2ebf2 50%, #e0f2fe 100%);
+}
+
+.app-child .book-list-page {
+  background: linear-gradient(160deg, #fff8e1 0%, #fff3e0 50%, #fce4ec 100%);
+}
+
+.app-parent .page {
+  background: var(--bg-parent);
 }

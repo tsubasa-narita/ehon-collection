@@ -1,5 +1,54 @@
+/* ===== App Layout ===== */
 .app {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  transition: background var(--transition-slow);
+}
+
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Child Mode Theme ===== */
+.app-child {
+  --bg-page: var(--child-bg);
+}
+
+/* ===== Parent Mode Theme ===== */
+.app-parent {
+  --bg-page: var(--parent-bg);
+}
+
+/* ===== Loading Screen ===== */
+.app-loading {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  background: linear-gradient(160deg, #0f1b2d, #1a2744);
+}
+
+.app-loading-train {
+  font-size: 4rem;
+  animation: trainLoadingBounce 1.2s ease-in-out infinite;
+}
+
+@keyframes trainLoadingBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-12px) rotate(-3deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  75% { transform: translateY(-6px) rotate(2deg); }
+}
+
+.app-loading-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
 }
