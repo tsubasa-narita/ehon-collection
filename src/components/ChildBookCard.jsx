@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useVoice } from '../hooks/useVoice';
 import './ChildBookCard.css';
 
@@ -7,11 +8,14 @@ import './ChildBookCard.css';
  */
 export default function ChildBookCard({ book, onClick }) {
   const { speak } = useVoice();
+  const [imgFailed, setImgFailed] = useState(false);
 
   const handleClick = () => {
     speak(book.title);
     onClick(book);
   };
+
+  const showPlaceholder = !book.coverUrl || imgFailed;
 
   return (
     <button className="child-book-card animate-float" onClick={handleClick}>
@@ -32,26 +36,20 @@ export default function ChildBookCard({ book, onClick }) {
 
       {/* 表紙画像エリア */}
       <div className="child-book-cover-wrap">
-        {book.coverUrl ? (
+        {!showPlaceholder && (
           <img
             src={book.coverUrl}
             alt={book.title}
             className="child-book-cover"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.style.display = 'none';
-              e.target.parentNode.querySelector('.child-book-cover-placeholder').style.display = 'flex';
-            }}
+            onError={() => setImgFailed(true)}
           />
-        ) : null}
-        
-        {/* Placeholder if no image */}
-        <div 
-          className="child-book-cover-placeholder"
-          style={{ display: book.coverUrl ? 'none' : 'flex' }}
-        >
-          📚
-        </div>
+        )}
+
+        {showPlaceholder && (
+          <div className="child-book-cover-placeholder">
+            📚
+          </div>
+        )}
       </div>
 
       {/* タイトルエリア (グラスモーフィズム) */}

@@ -21,22 +21,33 @@ export default function GachaAnimation({ train, onComplete }) {
     onComplete();
   };
 
+  // Escape key to skip/close
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && phase === 'reveal') {
+        handleComplete();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [phase]);
+
   useEffect(() => {
     playGachaRoll();
 
     const timer1 = setTimeout(() => {
       setPhase('opening');
-    }, 1800);
+    }, 1200);
 
     const timer2 = setTimeout(() => {
       setPhase('reveal');
       playGachaReveal(train.rarity);
       speak(`${train.name}をゲットしたよ！`);
-    }, 3000);
+    }, 2000);
 
     const timer3 = setTimeout(() => {
       handleComplete();
-    }, 7000);
+    }, 5000);
 
     return () => {
       clearTimeout(timer1);

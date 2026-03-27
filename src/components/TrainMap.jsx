@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useBookDB } from '../hooks/useBookDB';
 import { useVoice } from '../hooks/useVoice';
 import { useSound } from '../hooks/useSound';
@@ -28,6 +28,18 @@ export default function TrainMap({ refreshKey, showCollectionOnly = false }) {
     setUnlockedTrains(getUnlockedTrains(count));
     setNextTrain(getNextTrain(count));
   };
+
+  // Escape key to close modal
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Escape' && showTrainDetail) {
+      setShowTrainDetail(null);
+    }
+  }, [showTrainDetail]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   const currentStation = getCurrentStation(totalReadCount);
   

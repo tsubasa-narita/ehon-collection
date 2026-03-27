@@ -2,6 +2,12 @@
  * openBD API / Google Books API / 国立国会図書館 から書籍情報を取得する
  */
 
+function fetchWithTimeout(url, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
 export async function fetchBookInfo(isbn) {
   // ISBN のハイフン除去・正規化
   const cleanIsbn = isbn.replace(/[-\s]/g, '');
@@ -38,7 +44,7 @@ export async function fetchBookInfo(isbn) {
 }
 
 async function fetchFromOpenBD(isbn) {
-  const res = await fetch(`https://api.openbd.jp/v1/get?isbn=${isbn}`);
+  const res = await fetchWithTimeout(`https://api.openbd.jp/v1/get?isbn=${isbn}`);
   if (!res.ok) return null;
 
   const data = await res.json();
@@ -58,7 +64,7 @@ async function fetchFromOpenBD(isbn) {
 }
 
 async function fetchFromGoogleBooks(isbn) {
-  const res = await fetch(
+  const res = await fetchWithTimeout(
     `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=1`
   );
   if (!res.ok) return null;

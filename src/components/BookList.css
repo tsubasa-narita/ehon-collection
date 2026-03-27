@@ -42,8 +42,8 @@
 }
 
 .search-clear {
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-full);
   background: rgba(0, 0, 0, 0.08);
   font-size: var(--font-size-xs);

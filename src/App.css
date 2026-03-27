@@ -12,6 +12,22 @@
   flex-direction: column;
 }
 
+/* Tab transition wrapper */
+.tab-content {
+  animation: tabSlideIn 300ms ease both;
+}
+
+@keyframes tabSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ===== Child Mode Theme ===== */
 .app-child {
   --bg-page: var(--child-bg);

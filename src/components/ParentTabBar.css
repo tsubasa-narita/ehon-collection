@@ -7,7 +7,7 @@
   display: flex;
   align-items: stretch;
   justify-content: center;
-  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  background: linear-gradient(180deg, var(--color-slate-800) 0%, var(--color-slate-900) 100%);
   padding: 0 var(--space-sm);
   padding-bottom: env(safe-area-inset-bottom, 0px);
   z-index: 100;
@@ -23,7 +23,7 @@
   justify-content: center;
   gap: 2px;
   padding: var(--space-xs) 0;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.7);
   transition: color var(--transition-fast);
   min-height: 48px;
   font-family: var(--font-family);
@@ -56,7 +56,7 @@
 }
 
 .parent-tab-active .parent-tab-label {
-  color: #818cf8;
+  color: var(--color-indigo);
 }
 
 /* ===== Scan Button ===== */
@@ -65,10 +65,10 @@
   bottom: calc(8px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
-  width: 48px;
-  height: 48px;
+  width: var(--touch-min);
+  height: var(--touch-min);
   border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, var(--color-indigo), var(--color-indigo-dark));
   color: white;
   display: flex;
   align-items: center;
@@ -97,7 +97,7 @@
   right: var(--space-sm);
   padding: 6px 14px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, #22c55e, #16a34a);
+  background: linear-gradient(135deg, var(--color-green-500), var(--color-green-600));
   color: white;
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);

@@ -25,7 +25,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-md);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-xl);
 }
 
 .parent-lock-icon {
@@ -62,7 +62,7 @@
 }
 
 .parent-lock-num {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, var(--color-indigo), var(--color-indigo-dark));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -80,7 +80,7 @@
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-black);
   font-family: var(--font-family);
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--color-border-light);
   border-radius: var(--radius-md);
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
@@ -88,7 +88,7 @@
 }
 
 .parent-lock-input:focus {
-  border-color: #6366f1;
+  border-color: var(--color-indigo);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
@@ -99,7 +99,7 @@
 
 .parent-lock-submit {
   width: 100%;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  background: linear-gradient(135deg, var(--color-indigo), var(--color-indigo-dark)) !important;
 }
 
 .parent-lock-submit:disabled {

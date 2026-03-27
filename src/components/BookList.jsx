@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useBookDB } from '../hooks/useBookDB';
 import BookCard from './BookCard';
+import { SkeletonGrid } from './SkeletonLoader';
 import './BookList.css';
 
 export default function BookList({ onSelectBook, refreshKey }) {
   const [books, setBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [searchText, setSearchText] = useState('');
   const { getAllBooks } = useBookDB();
@@ -14,8 +16,10 @@ export default function BookList({ onSelectBook, refreshKey }) {
   }, [refreshKey]);
 
   const loadBooks = async () => {
+    setIsLoading(true);
     const allBooks = await getAllBooks();
     setBooks(allBooks);
+    setIsLoading(false);
   };
 
   const filteredBooks = books.filter((b) => {
@@ -75,7 +79,9 @@ export default function BookList({ onSelectBook, refreshKey }) {
         ))}
       </div>
 
-      {filteredBooks.length === 0 ? (
+      {isLoading ? (
+        <SkeletonGrid count={6} />
+      ) : filteredBooks.length === 0 ? (
         <div className="book-list-empty animate-fade-in">
           <div className="empty-emoji">🚂</div>
           <p className="empty-text">

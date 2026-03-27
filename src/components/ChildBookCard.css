@@ -49,8 +49,8 @@
   align-items: center;
   justify-content: center;
   font-size: 3rem;
-  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-  color: #d81b60;
+  background: linear-gradient(135deg, var(--color-pink-50), var(--color-pink-100));
+  color: var(--color-pink-600);
 }
 
 /* Info Glass Card */

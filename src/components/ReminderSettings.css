@@ -37,7 +37,7 @@
 .reminder-slider {
   position: absolute;
   inset: 0;
-  background: #ccc;
+  background: var(--color-bg-toggle-off);
   border-radius: var(--radius-full);
   transition: background var(--transition-fast);
   cursor: pointer;

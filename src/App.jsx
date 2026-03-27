@@ -133,14 +133,16 @@ function App() {
       <div className="app app-child">
         {/* Main content */}
         <div className="app-content">
-          {childTab === 'map' && <TrainMap refreshKey={refreshKey} />}
-          {childTab === 'books' && (
-            <ChildBookShelf
-              onSelectBook={handleSelectBook}
-              refreshKey={refreshKey}
-            />
-          )}
-          {childTab === 'collection' && <TrainMap refreshKey={refreshKey} showCollectionOnly />}
+          <div className="tab-content" key={childTab}>
+            {childTab === 'map' && <TrainMap refreshKey={refreshKey} />}
+            {childTab === 'books' && (
+              <ChildBookShelf
+                onSelectBook={handleSelectBook}
+                refreshKey={refreshKey}
+              />
+            )}
+            {childTab === 'collection' && <TrainMap refreshKey={refreshKey} showCollectionOnly />}
+          </div>
         </div>
 
         {/* Child Tab Bar */}
@@ -174,16 +176,18 @@ function App() {
     <div className="app app-parent">
       {/* Main content */}
       <div className="app-content">
-        {parentTab === 'books' && (
-          <BookList
-            onSelectBook={handleSelectBook}
-            refreshKey={refreshKey}
-          />
-        )}
-        {parentTab === 'stats' && <StatsPage refreshKey={refreshKey} />}
-        {parentTab === 'settings' && (
-          <ParentSettingsPage onDataChanged={refresh} />
-        )}
+        <div className="tab-content" key={parentTab}>
+          {parentTab === 'books' && (
+            <BookList
+              onSelectBook={handleSelectBook}
+              refreshKey={refreshKey}
+            />
+          )}
+          {parentTab === 'stats' && <StatsPage refreshKey={refreshKey} />}
+          {parentTab === 'settings' && (
+            <ParentSettingsPage onDataChanged={refresh} />
+          )}
+        </div>
       </div>
 
       {/* Parent Tab Bar */}

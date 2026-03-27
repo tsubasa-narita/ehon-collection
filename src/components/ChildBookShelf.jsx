@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useBookDB } from '../hooks/useBookDB';
 import ChildBookCard from './ChildBookCard';
+import { SkeletonShelf } from './SkeletonLoader';
 import './ChildBookShelf.css';
 
 /**
@@ -9,6 +10,7 @@ import './ChildBookShelf.css';
  */
 export default function ChildBookShelf({ onSelectBook, refreshKey }) {
   const [books, setBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { getAllBooks } = useBookDB();
 
   useEffect(() => {
@@ -16,8 +18,10 @@ export default function ChildBookShelf({ onSelectBook, refreshKey }) {
   }, [refreshKey]);
 
   const loadBooks = async () => {
+    setIsLoading(true);
     const allBooks = await getAllBooks();
     setBooks(allBooks);
+    setIsLoading(false);
   };
 
   // 1. おきにいりの絵本
@@ -35,6 +39,15 @@ export default function ChildBookShelf({ onSelectBook, refreshKey }) {
     const shuffled = [...candidates].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, Math.min(2, shuffled.length));
   }, [books]);
+
+  if (isLoading) {
+    return (
+      <div className="child-bookshelf-page page">
+        <SkeletonShelf count={3} />
+        <SkeletonShelf count={4} />
+      </div>
+    );
+  }
 
   if (books.length === 0) {
     return (
