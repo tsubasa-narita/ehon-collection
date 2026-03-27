@@ -1,0 +1,78 @@
+/* ===== Child Book Shelf ===== */
+.child-bookshelf-page {
+  padding-top: var(--space-xl);
+}
+
+.child-bookshelf-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  text-align: center;
+  gap: var(--space-md);
+}
+
+.child-bookshelf-empty .empty-emoji {
+  font-size: 5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.child-bookshelf-empty .empty-text {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Shelf Section */
+.shelf-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.shelf-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+  padding: 0 var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+.shelf-icon {
+  font-size: 1.2em;
+}
+
+/* Carousel */
+.shelf-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  padding-bottom: var(--space-lg);
+  /* Firefox */
+  scrollbar-width: none; 
+  /* Safari and Chrome */
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+}
+
+.shelf-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.shelf-carousel > * {
+  scroll-snap-align: start;
+}
+
+/* Hero Carousel (Today's Recommendations) */
+.hero-carousel {
+  padding-top: var(--space-md);
+}
+
+.hero-carousel .child-book-card {
+  width: 200px; /* Slightly larger */
+}

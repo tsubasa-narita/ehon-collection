@@ -1,0 +1,112 @@
+/* ===== Parent Lock ===== */
+.parent-lock-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+.parent-lock-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl) var(--space-xl);
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+}
+
+.parent-lock-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.parent-lock-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  color: var(--text-primary);
+}
+
+.parent-lock-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.parent-lock-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.parent-lock-question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-black);
+  color: var(--text-primary);
+}
+
+.parent-lock-num {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.parent-lock-op,
+.parent-lock-eq {
+  color: var(--text-secondary);
+}
+
+.parent-lock-input {
+  width: 80px;
+  height: 56px;
+  text-align: center;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  font-family: var(--font-family);
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  background: #f8fafc;
+}
+
+.parent-lock-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.parent-lock-input-error {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.15);
+}
+
+.parent-lock-submit {
+  width: 100%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+}
+
+.parent-lock-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.parent-lock-cancel {
+  color: var(--text-light) !important;
+}

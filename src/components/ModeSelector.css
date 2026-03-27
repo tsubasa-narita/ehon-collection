@@ -1,0 +1,189 @@
+/* ===== Mode Selector ===== */
+.mode-selector-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-onboarding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #0f1b2d 0%, #1a2744 30%, #243b5e 60%, #1e3050 100%);
+  overflow: hidden;
+}
+
+/* ===== Animated background ===== */
+.mode-bg-tracks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.mode-bg-train {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.12;
+  animation: modeTrainMove linear infinite;
+}
+
+.mode-bg-train-1 {
+  top: 18%;
+  animation-duration: 18s;
+  font-size: 2.5rem;
+}
+.mode-bg-train-2 {
+  top: 52%;
+  animation-duration: 24s;
+  animation-delay: -8s;
+}
+.mode-bg-train-3 {
+  top: 78%;
+  animation-duration: 14s;
+  animation-delay: -4s;
+  font-size: 1.8rem;
+}
+
+@keyframes modeTrainMove {
+  0%   { transform: translateX(-100px); }
+  100% { transform: translateX(calc(100vw + 100px)); }
+}
+
+/* ===== Content ===== */
+.mode-selector-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-lg);
+  width: 100%;
+  max-width: 400px;
+  animation: fadeIn var(--transition-slow) ease both;
+}
+
+/* ===== Header ===== */
+.mode-selector-header {
+  text-align: center;
+}
+
+.mode-selector-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-black);
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  margin-bottom: var(--space-sm);
+}
+
+.mode-selector-subtitle {
+  font-size: var(--font-size-lg);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ===== Mode Cards ===== */
+.mode-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+.mode-card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--transition-spring), box-shadow var(--transition-base);
+  border: none;
+  text-align: center;
+  width: 100%;
+  padding: 0;
+}
+
+.mode-card:active {
+  transform: scale(0.96);
+}
+
+/* Glow effect behind card */
+.mode-card-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.mode-card-glow-child {
+  background: linear-gradient(135deg, #4ade80, #22d3ee, #3b82f6);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.mode-card-glow-parent {
+  background: linear-gradient(135deg, #a78bfa, #818cf8, #6366f1);
+  animation: glowPulse 3s ease-in-out infinite 1.5s;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Inner card with glassmorphism */
+.mode-card-inner {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: inherit;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.mode-card-emoji {
+  font-size: 3.5rem;
+  line-height: 1;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.mode-card-child .mode-card-emoji {
+  animation-delay: 0s;
+}
+.mode-card-parent .mode-card-emoji {
+  animation-delay: 1s;
+}
+
+.mode-card-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mode-card-desc {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+/* Badge */
+.mode-card-badge {
+  margin-top: var(--space-xs);
+  padding: 4px 16px;
+  border-radius: var(--radius-full);
+  background: rgba(74, 222, 128, 0.25);
+  color: #86efac;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.mode-card-badge-parent {
+  background: rgba(167, 139, 250, 0.25);
+  color: #c4b5fd;
+  border-color: rgba(167, 139, 250, 0.3);
+}

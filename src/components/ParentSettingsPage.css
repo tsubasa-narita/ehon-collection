@@ -1,0 +1,55 @@
+/* ===== Parent Settings Page ===== */
+.parent-settings-page {
+  background: var(--bg-parent);
+}
+
+.parent-settings-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  color: var(--text-primary);
+  padding: var(--space-md) 0;
+  margin-bottom: var(--space-md);
+}
+
+.parent-settings-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.parent-settings-section-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.parent-settings-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.parent-settings-info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.parent-settings-info-item:last-child {
+  border-bottom: none;
+}
+
+.parent-settings-info-label {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.parent-settings-info-value {
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}

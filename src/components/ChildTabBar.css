@@ -1,0 +1,106 @@
+/* ===== Child Tab Bar ===== */
+.child-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+  padding: var(--space-xs) var(--space-sm);
+  padding-bottom: calc(var(--space-xs) + env(safe-area-inset-bottom, 0px));
+  z-index: 100;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.child-tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: var(--space-sm) var(--space-xs);
+  color: var(--text-light);
+  transition: all var(--transition-fast);
+  min-height: 68px;
+  border-radius: var(--radius-lg);
+  position: relative;
+}
+
+.child-tab-active {
+  color: var(--color-primary);
+}
+
+/* 3D-style active indicator */
+.child-tab-active::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(26, 115, 232, 0.08), rgba(26, 115, 232, 0.04));
+  z-index: -1;
+}
+
+.child-tab-emoji {
+  font-size: 1.8rem;
+  line-height: 1;
+  transition: transform var(--transition-spring);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.child-tab-active .child-tab-emoji {
+  transform: scale(1.15) translateY(-2px);
+  animation: childTabBounce 0.4s ease;
+}
+
+@keyframes childTabBounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25) translateY(-4px); }
+  70% { transform: scale(1.1) translateY(-1px); }
+  100% { transform: scale(1.15) translateY(-2px); }
+}
+
+.child-tab-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-black);
+  letter-spacing: 0.05em;
+}
+
+.child-tab-active .child-tab-label {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Mode switch button — top-left, small and subtle */
+.child-mode-switch-btn {
+  position: fixed;
+  top: calc(var(--space-sm) + env(safe-area-inset-top, 0px));
+  right: var(--space-sm);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  z-index: 101;
+  transition: all var(--transition-fast);
+  opacity: 0.5;
+}
+
+.child-mode-switch-btn:active {
+  transform: scale(0.9);
+  opacity: 1;
+}

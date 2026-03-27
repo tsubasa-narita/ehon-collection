@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /c/develop/ehon-collection/*.config.js /c/develop/ehon-collection/*.json)",
+      "Bash(npm run:*)",
+      "Bash(npx eslint:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(curl -s \"https://api.openbd.jp/v1/get?isbn=9784834000825\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s https://api.openbd.jp/v1/get?isbn=9784834000825)",
+      "Bash(python -m json.tool)",
+      "Bash(curl -s \"https://www.googleapis.com/books/v1/volumes?q=isbn:9784834000825&maxResults=1\")",
+      "Bash(curl -sI \"https://books.google.com/books/content?id=BjqVAQAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api\")"
+    ]
+  }
+}

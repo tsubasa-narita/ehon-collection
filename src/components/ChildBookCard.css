@@ -1,0 +1,121 @@
+/* ===== Child Book Card ===== */
+.child-book-card {
+  position: relative;
+  width: 160px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: transform var(--transition-spring), filter var(--transition-fast);
+  /* slight random animation delay for float */
+  animation-duration: 4s;
+}
+
+.child-book-card:active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
+}
+
+/* Cover Wrapper */
+.child-book-cover-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  background: #ffffff;
+  z-index: 1;
+  transition: box-shadow var(--transition-fast);
+}
+
+.child-book-card:hover .child-book-cover-wrap {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.child-book-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.child-book-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  color: #d81b60;
+}
+
+/* Info Glass Card */
+.child-book-info {
+  margin-top: -16px;
+  padding: 24px 12px 12px;
+  border-radius: var(--radius-md);
+  z-index: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.child-book-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-black);
+  color: var(--text-primary);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Badges */
+.child-book-badge {
+  position: absolute;
+  z-index: 2;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  animation: bounceIn var(--transition-spring) both;
+}
+
+.child-book-badge-read {
+  top: -8px;
+  left: -8px;
+  background: linear-gradient(135deg, #fbbc04, #ea4335);
+  padding: 4px 8px;
+  border: 2px solid white;
+  gap: 2px;
+}
+
+.child-book-badge-read .badge-bg {
+  font-size: 1rem;
+}
+
+.child-book-badge-read .badge-text {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-black);
+  color: white;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.child-book-badge-heart {
+  top: -8px;
+  right: -8px;
+  width: 32px;
+  height: 32px;
+  background: white;
+  font-size: 1.2rem;
+  padding-top: 2px;
+  border: 2px solid #ff4b4b;
+  animation-delay: 0.1s;
+}
